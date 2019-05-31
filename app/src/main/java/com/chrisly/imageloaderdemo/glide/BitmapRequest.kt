@@ -42,6 +42,7 @@ class BitmapRequest(private val context: Context) {
     fun into(imageView: ImageView){
         imageView.tag = this.urlMD5
         this.imageView = SoftReference(imageView)
+        RequestManager.getInstance().addRequest(this)
     }
 
     fun getImageView(): ImageView?{

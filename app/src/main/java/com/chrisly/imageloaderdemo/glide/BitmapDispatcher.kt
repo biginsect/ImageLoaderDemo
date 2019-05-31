@@ -6,14 +6,14 @@ import android.os.Handler
 import android.os.Looper
 import java.io.InputStream
 import java.net.URL
-import java.util.concurrent.BlockingQueue
+import java.util.concurrent.LinkedBlockingQueue
 
 /**
  * 对BitmapRequest进行处理
  * @author big insect
  * @date 2019/5/31.
  */
-class BitmapDispatcher(private val requestQueue: BlockingQueue<BitmapRequest>): Thread() {
+class BitmapDispatcher(private val requestQueue: LinkedBlockingQueue<BitmapRequest>): Thread() {
 
     private var handler: Handler = Handler(Looper.getMainLooper())
 
