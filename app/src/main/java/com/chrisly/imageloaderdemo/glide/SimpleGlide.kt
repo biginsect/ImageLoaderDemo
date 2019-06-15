@@ -7,7 +7,7 @@ import android.content.Context
  * @author big insect
  * @date 2019/6/1.
  */
-class SimpleGlide {
+object SimpleGlide {
 
     fun with(context: Context): BitmapRequest{
         return BitmapRequest(context)

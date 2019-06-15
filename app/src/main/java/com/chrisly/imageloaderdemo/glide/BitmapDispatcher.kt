@@ -4,7 +4,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Handler
 import android.os.Looper
-import java.io.InputStream
+import android.util.Log
+import java.io.ByteArrayOutputStream
+import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -52,17 +54,22 @@ class BitmapDispatcher(private val requestQueue: LinkedBlockingQueue<BitmapReque
         }
     }
 
+    /*
+    * 图片需要压缩
+    * */
     private fun downloadImage(uri: String?): Bitmap?{
-        val input: InputStream
-        val bitmap: Bitmap
         val url = URL(uri)
 
-        val conn = url.openConnection()
-        input = conn.getInputStream()
-        bitmap = BitmapFactory.decodeStream(input)
+        val conn = url.openConnection() as HttpURLConnection
+        val input = conn.inputStream
+        Log.e("BitmapDispatcher${this.name}","${input.read()}")
+        val arrayOutput = ByteArrayOutputStream()
+        val buff = ByteArray(1024)
+        val len = input.read(buff)
+        while (len != -1){
+            arrayOutput.write(buff,0,len)
+        }
 
-        input.close()
-
-        return bitmap
+        return BitmapFactory.decodeByteArray(arrayOutput.toByteArray(), 0,arrayOutput.toByteArray().size)
     }
 }
